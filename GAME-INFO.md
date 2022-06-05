@@ -6,6 +6,7 @@ Every *"cell"* has two possibles states: *live/populated* or *death/unpopulated*
 2. Any live cell with two or three neighbours **lives** on the next generation.
 3. Any live cell with more than three neighbours **dies**, by overpopulation.
 4. Any death cell with exactly three neighbours becomes a **live cell**, by reproduction.
+
 These rules can be condensed into these three:
 1. Any live cell with two or three neighbours *survives*.
 2. Any death cell with three neighbours *revives*.
