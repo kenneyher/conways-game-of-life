@@ -1,0 +1,88 @@
+<!-- <!DOCTYPE html> -->
+<head>
+  <title>Glider in p5js</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.3.1/lib/p5.js"></script> 
+  <script>
+    async function setup(){
+      const START = 3;
+      const LIMIT = 8;
+      createCanvas(400, 400);
+      background(230, 230, 230);
+      square(0, 0, 400);
+      graph(400);
+      for(let i=START; i < LIMIT; i++){
+        drawGlider(i, i, 'black');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        drawGlider(i, i, 'white'); 
+        drawGlider2(i, 'black');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        drawGlider2(i, 'white');
+        drawGlider3(i, 'black');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        drawGlider3(i, 'white');
+        drawGlider4(i, 'black');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        drawGlider4(i, 'white');
+      }
+      drawGlider(LIMIT, LIMIT, 'black');
+    }
+
+    function graph(display){
+      // const displaySize = 800;
+      const SCALE = display/20;
+      for(let i=SCALE; i<display ; i+=SCALE){
+        stroke('#B8B8B8');
+        line(0, i, display, i);
+        line(i, 0, i, display);
+      }
+    }
+
+    function drawGlider(posx, posy, color){
+      stroke('#B8B8B8');
+      // strokeWeight(2);
+      const SCALE = 400/20;
+      const p = {x: posx*SCALE, y: posy*SCALE};
+      fill(color);
+      square(p.x, p.y, SCALE);
+      const NEXT_POS = [{x: p.x + SCALE, y: p.y + SCALE}, {x: p.x + SCALE, y: p.y + SCALE*2}, {x: p.x, y: p.y + SCALE*2}, {x: p.x - SCALE, y: p.y + SCALE*2}];
+      for(let i=0; i<NEXT_POS.length; i++){
+        let p = NEXT_POS[i];
+        fill(color);
+        square(p.x, p.y, SCALE);
+      }
+    }
+
+    function drawGlider2(lastCoor, color){
+      const SCALE = 400/20;
+      let posInGraph = lastCoor*SCALE;
+      const lastPos = [{x: posInGraph - SCALE, y: posInGraph + SCALE}, {x: posInGraph + SCALE, y: posInGraph + SCALE}, {x: posInGraph + SCALE, y: posInGraph + SCALE*2},  {x: posInGraph , y: posInGraph + SCALE*3}, {x: posInGraph, y: posInGraph + SCALE*2}];
+      // console.log(lastPos[0])
+      for(let i=0; i<lastPos.length; i++){
+        let p = lastPos[i];
+        fill(color);
+        square(p.x, p.y, SCALE);
+      }
+    }
+
+    function drawGlider3(lastCoor, color){
+      const SCALE = 400/20;
+      let posInGraph = lastCoor*SCALE;
+      const pos = [{x: posInGraph + SCALE, y: posInGraph + SCALE}, {x: posInGraph + SCALE, y: posInGraph + SCALE*2}, {x: posInGraph + SCALE, y: posInGraph + SCALE*3}, {x: posInGraph, y: posInGraph + SCALE*3}, {x: posInGraph - SCALE, y: posInGraph + SCALE*2}, ];
+      for(let i=0; i<pos.length; i++){
+        let p = pos[i];
+        fill(color);
+        square(p.x, p.y, SCALE);
+      }
+    }
+    function drawGlider4(lastCoor, color){
+      const SCALE = 400/20;
+      let posInGraph = lastCoor*SCALE;
+      const pos = [{x: posInGraph, y: posInGraph + SCALE}, {x: posInGraph + SCALE, y: posInGraph + SCALE*2}, {x: posInGraph + SCALE*2, y: posInGraph + SCALE*2}, {x: posInGraph + SCALE, y: posInGraph + SCALE*3}, {x: posInGraph, y: posInGraph + SCALE*3},];
+      for(let i=0; i<pos.length; i++){
+        let p = pos[i];
+        fill(color);
+        square(p.x, p.y, SCALE);
+      }
+    }
+  </script>
+</head>
