@@ -1,0 +1,92 @@
+<head>
+  <title>Glider in p5js</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.3.1/lib/p5.js"></script>
+  <script>
+    let universe = [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
+    function clear(){
+      fill(237, 232, 232)
+      square(0, 0, 800);
+    }
+    function draw(cells){
+      const SCALE = 800/universe.length
+      console.log(SCALE);
+      for(let row=0; row<cells.length; row++){
+        for(let col=0; col<cells[row].length; col++){
+          if(cells[row][col] == 0){
+            fill(237, 232, 232);
+            square(col*SCALE, row*SCALE, SCALE);
+          }else {
+            fill(136, 173, 110)
+            square(col*SCALE, row*SCALE, SCALE);
+          }
+        }
+      }
+    }
+    function next(cells) {
+      const result = [];
+      for (let row = 0; row < cells.length; row++) {
+        result.push([])
+        for (let col = 0; col < cells[row].length; col++) {
+          let a = cells[row - 1]?.[col - 1] || 0;
+          let b = cells[row - 1]?.[col] || 0;
+          let c = cells[row - 1]?.[col + 1] || 0;
+          let d = cells[row]?.[col - 1] || 0;
+          let e = cells[row]?.[col + 1] || 0;
+          let f = cells[row + 1]?.[col - 1] || 0;
+          let g = cells[row + 1]?.[col] || 0;
+          let h = cells[row + 1]?.[col + 1] || 0;
+          let neighboursAlive = a + b + c + d + e + f + g + h;
+          let currentState = cells[row][col]
+          let nextState = checkRules(currentState, neighboursAlive)
+          result[row].push(nextState)
+        }
+      }
+      return result;
+    }
+
+    function checkRules(cellState, neighboursAlive) {
+      if (cellState == 0) {
+        return neighboursAlive == 3 ? 1 : 0;
+      }
+      if(neighboursAlive == 2 || neighboursAlive == 3) {
+        return 1
+      }
+      return 0
+    }
+
+    async function setup(){
+      createCanvas(800, 800);
+      background(237, 232, 232);
+      fill(237, 232, 232)
+      square(0, 0, 800);
+      draw(universe);
+      await new Promise(resolve => setTimeout(resolve, 500));
+      while(true){
+        draw(next(universe));
+        await new Promise(resolve => setTimeout(resolve, 500));
+        universe = next(universe);
+      }
+    }
+  </script>
+</head>
