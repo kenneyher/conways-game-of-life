@@ -23,21 +23,29 @@
       border: 4px solid #333;
       box-shadow: -407px 0 0 400px #00e582;
     }
+
+    body{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: snow;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.js"></script>
   <script>
-    let gameSpeed = 400;
+    let gameSpeed = 700;
     let playing = false;
     function switchState() {
       playing = !playing;
       let btn = document.getElementById('play_stop');
       btn.textContent = playing ? 'Stop' : 'Play';
     }
-    let theme = 'light';
-    function switchTheme() {
-      theme = theme == 'light' ? 'dark' : 'light';
-    }
-    let colors = { dark: { alive: [255, 253, 130], dead: [0, 21, 36,], stroke: [237, 232, 232] }, light: { dead: [237, 232, 232], alive: [136, 173, 110], stroke: [0, 21, 36,] } };
+    // let theme = 'light';
+    // function switchTheme() {
+    //   theme = theme == 'light' ? 'dark' : 'light';
+    // }
+    // let colors = { dark: { alive: [255, 253, 130], dead: [0, 21, 36,], stroke: [237, 232, 232] }, light: { dead: [237, 232, 232], alive: [136, 173, 110], stroke: [0, 21, 36,] } };
 
     const extension = 50;
     let universe = new Array(extension).fill(0).map(() => new Array(extension).fill(0));
@@ -46,12 +54,12 @@
       const SCALE = displaySize / cells.length;
       for (let row = 0; row < cells.length; row++) {
         for (let col = 0; col < cells[row].length; col++) {
-          stroke(colors[theme].stroke)
+          stroke(52, 46, 55)
           if (cells[row][col] == 0) {
-            fill(colors[theme].dead);
+            fill(119, 135, 139);
             square(col * SCALE, row * SCALE, SCALE);
           } else {
-            fill(colors[theme].alive)
+            fill(181, 239, 138 )
             square(col * SCALE, row * SCALE, SCALE);
           }
         }
@@ -106,13 +114,15 @@
       }
     }
   </script>
-  <button id='theme' onclick="javascript:switchTheme()">Switch Theme</button>
+  <h1>Conway's Game of Life (KRNS version)</h1>
+  <!-- <button id='theme' onclick="javascript:switchTheme()">Switch Theme</button> -->
   <button id='play_stop' onclick="javascript:switchState()">Play</button>
+  <!-- <button id='clear' onclick="javascript:clear()">Reset</button> -->
   <div>
     <span id="rangeValue">Speed:</span>
-    <Input class="range" type="range"  value="0" min="200" max="1500" onChange="gameSpeed = 1700 - Number.parseInt(this.value)"></Input>
+    <input class="range" type="range"  value="700" min="100" max="1500" onchange="javascript:gameSpeed = 1600 - Number.parseInt(this.value)"></input>
   </div>
 </head>
 
-<body>
+<body bgcolor="#342E37">
 </body>
